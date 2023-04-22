@@ -1,6 +1,7 @@
 package br.upe.model;
 
 import javax.swing.table.AbstractTableModel;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public class TarefaTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -33,6 +34,7 @@ public class TarefaTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0 : return tarefa.isFinalizada();
             case 1 : return tarefa.getDescricao();
+            case 2 : return tarefa.getDataCriacao();
         }
         return null;
     }
@@ -41,6 +43,7 @@ public class TarefaTableModel extends AbstractTableModel {
         switch (c) {
             case 0 : return Boolean.class;
             case 1 : return String.class;
+            case 2 : return LocalDate.class;
         }
         return null;
     }

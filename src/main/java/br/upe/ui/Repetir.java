@@ -10,8 +10,8 @@ public class Repetir extends JDialog {
     private JTextField tempoField;
     private JComboBox comboBox;
     private JTextField qtdField;
-
     private int tempo;
+    private int unidade;
     private int qtdVezes;
     private String texto;
 
@@ -55,22 +55,22 @@ public class Repetir extends JDialog {
         if(!tempoField.getText().matches("[0-9]+") || !qtdField.getText().matches("[0-9]+")) {
             btnSalvar.disable();
         } else {
-            int unidade = comboBox.getSelectedIndex();
+            unidade = comboBox.getSelectedIndex();
             tempo = Integer.parseInt(tempoField.getText());
             qtdVezes = Integer.parseInt(qtdField.getText());
+            texto = "Repetir a cada " + tempo;
 
             if(tempo == 0) tempo = 1;
-            texto = "Repetir a cada " + tempo + " dia(s), " + qtdVezes + " vez(es)";
+            if(qtdVezes == 0) qtdVezes = 1;
 
-            if(unidade == 1) {
-                texto = "Repetir a cada " + tempo + " semana(s), " + qtdVezes + " vez(es)";
-                tempo *= 7;
+            if(unidade == 0) {
+                texto += " dia(s), " + qtdVezes + " vez(es)";
+            } else if(unidade == 1) {
+                texto += " semana(s), " + qtdVezes + " vez(es)";
             } else if(unidade == 2) {
-                texto = "Repetir a cada " + tempo + " mes(es), " + qtdVezes + " vez(es)";
-                tempo *= 30;
-            } else if(unidade == 3) {
-                texto = "Repetir a cada " + tempo + " ano(s), " + qtdVezes + " vez(es)";
-                tempo *= 365;
+                texto += " mes(es), " + qtdVezes + " vez(es)";
+            } else {
+                texto += " ano(s), " + qtdVezes + " vez(es)";
             }
             dispose();
         }
@@ -83,6 +83,10 @@ public class Repetir extends JDialog {
 
     public int getTempo() {
         return tempo;
+    }
+
+    public int getUnidade() {
+        return unidade;
     }
 
     public int getQtdVezes() {

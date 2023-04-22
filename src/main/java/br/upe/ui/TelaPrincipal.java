@@ -4,7 +4,9 @@ import br.upe.controller.TarefaControlador;
 import br.upe.model.Tarefa;
 
 import javax.swing.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TelaPrincipal {
@@ -18,17 +20,17 @@ public class TelaPrincipal {
     private List<Tarefa> tarefas;
     private TarefaControlador controlador;
     private int tempo;
+    private int unidade;
     private int qtdVezes;
 
     public TelaPrincipal() {
         super();
         tarefas = new ArrayList<>();
         btnAdicionarTarefa.addActionListener(e -> {
-            adicionarTarefa(txtDescricaoTarefa.getText());
+            adicionarTarefa(txtDescricaoTarefa.getText(), tempo, unidade, qtdVezes);
             txtDescricaoTarefa.setText("");
-            tempo = 0;
-            qtdVezes = 0;
             btnRepetir.setText("Repetir");
+            qtdVezes = 0;
         });
         chkExibirFinalizadas.addActionListener(e -> {
             boolean selecionado = ((JCheckBox) e.getSource()).isSelected();
@@ -37,16 +39,38 @@ public class TelaPrincipal {
         btnRepetir.addActionListener(e -> {
             Repetir repetir = new Repetir();
             tempo = repetir.getTempo();
+            unidade = repetir.getUnidade();
             qtdVezes = repetir.getQtdVezes();
+
             if(repetir.getTexto() != null) btnRepetir.setText(repetir.getTexto());
         });
     }
 
-    private void adicionarTarefa(String texto) {
-        Tarefa tarefa = new Tarefa(texto, tarefas.size());
+    private void adicionarTarefa(String texto, int tempo, int unidade, int qtdVezes) {
+        Tarefa tarefa = new Tarefa(texto, tarefas.size(), LocalDate.now());
         controlador.adicionarTarefaAtiva(tarefa);
+
+        if(qtdVezes > 0) {
+            LocalDate data = LocalDate.now();
+            for (int i = 0; i < qtdVezes; i++) {
+                data = calcular(tempo, unidade, data);
+                controlador.adicionarTarefaAtiva(new Tarefa(texto, tarefas.size(), data));
+            }
+
+        }
         tblTarefas.revalidate();
         tblTarefas.repaint();
+    }
+
+    private LocalDate calcular(int tempo, int unidade, LocalDate data) {
+        if (unidade == 0) {
+            return data.plusDays(tempo);
+        } else if (unidade == 1) {
+            return data.plusWeeks(tempo);
+        } else if (unidade == 2) {
+            return data.plusMonths(tempo);
+        }
+        return data.plusYears(tempo);
     }
 
     public JPanel getPnlMain() {
