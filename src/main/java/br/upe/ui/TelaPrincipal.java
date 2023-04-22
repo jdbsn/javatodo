@@ -15,13 +15,10 @@ public class TelaPrincipal {
     private JTable tblTarefas;
     private JCheckBox chkExibirFinalizadas;
     private JButton btnRepetir;
-    private JCheckBox chkRepetir;
-
     private List<Tarefa> tarefas;
-
     private TarefaControlador controlador;
-
     private int tempo;
+    private int qtdVezes;
 
     public TelaPrincipal() {
         super();
@@ -29,7 +26,9 @@ public class TelaPrincipal {
         btnAdicionarTarefa.addActionListener(e -> {
             adicionarTarefa(txtDescricaoTarefa.getText());
             txtDescricaoTarefa.setText("");
-            System.out.println(tempo);
+            tempo = 0;
+            qtdVezes = 0;
+            btnRepetir.setText("Repetir");
         });
         chkExibirFinalizadas.addActionListener(e -> {
             boolean selecionado = ((JCheckBox) e.getSource()).isSelected();
@@ -38,6 +37,8 @@ public class TelaPrincipal {
         btnRepetir.addActionListener(e -> {
             Repetir repetir = new Repetir();
             tempo = repetir.getTempo();
+            qtdVezes = repetir.getQtdVezes();
+            if(repetir.getTexto() != null) btnRepetir.setText(repetir.getTexto());
         });
     }
 
