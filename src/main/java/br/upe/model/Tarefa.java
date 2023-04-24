@@ -41,9 +41,7 @@ public class Tarefa {
         this.dataFinalizacao = dataFinalizacao;
     }
 
-    public LocalDate getDataVencimento() {
-        return dataVencimento;
-    }
+    public LocalDate getDataVencimento() { return dataVencimento; }
 
     public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;

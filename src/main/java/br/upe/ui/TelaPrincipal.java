@@ -22,6 +22,7 @@ public class TelaPrincipal {
     private int tempo;
     private int unidade;
     private int qtdVezes;
+    private Repetir repetir = new Repetir();
 
     public TelaPrincipal() {
         super();
@@ -37,10 +38,13 @@ public class TelaPrincipal {
             controlador.exibirFinalizadas(selecionado);
         });
         btnRepetir.addActionListener(e -> {
-            Repetir repetir = new Repetir();
-            tempo = repetir.getTempo();
-            unidade = repetir.getUnidade();
-            qtdVezes = repetir.getQtdVezes();
+            repetir.exibir();
+
+            if(repetir.isRepetir()) {
+                tempo = repetir.getTempo();
+                unidade = repetir.getUnidade();
+                qtdVezes = repetir.getQtdVezes();
+            }
 
             if(repetir.getTexto() != null) btnRepetir.setText(repetir.getTexto());
         });
@@ -50,7 +54,7 @@ public class TelaPrincipal {
         Tarefa tarefa = new Tarefa(texto, tarefas.size(), LocalDate.now());
         controlador.adicionarTarefaAtiva(tarefa);
 
-        if(qtdVezes > 0) {
+        if(repetir.isRepetir()) {
             LocalDate data = LocalDate.now();
             for (int i = 0; i < qtdVezes; i++) {
                 data = calcular(tempo, unidade, data);
