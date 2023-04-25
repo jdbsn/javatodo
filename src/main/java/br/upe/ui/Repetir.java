@@ -66,14 +66,13 @@ public class Repetir extends JDialog {
     private void salvar() {
         if(!tempoField.getText().matches("[0-9]+") || !qtdField.getText().matches("[0-9]+")) {
             btnSalvar.disable();
+        } else if (tempoField.getText().matches("0") || qtdField.getText().matches("0")) {
+            btnSalvar.disable();
         } else {
             unidade = comboBox.getSelectedIndex();
             tempo = Integer.parseInt(tempoField.getText());
             qtdVezes = Integer.parseInt(qtdField.getText());
             texto = "Repetir a cada " + tempo;
-
-            if(tempo == 0) tempo = 1;
-            if(qtdVezes == 0) qtdVezes = 1;
 
             if(unidade == 0) {
                 texto += tempo == 1  ? " dia, " : " dias, ";
