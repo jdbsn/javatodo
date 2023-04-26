@@ -66,7 +66,7 @@ public class Repetir extends JDialog {
     private void salvar() {
         if(!tempoField.getText().matches("[0-9]+") || !qtdField.getText().matches("[0-9]+")) {
             btnSalvar.disable();
-        } else if (tempoField.getText().matches("0") || qtdField.getText().matches("0")) {
+        } else if (Integer.parseInt(tempoField.getText()) == 0 || Integer.parseInt(qtdField.getText()) == 0) {
             btnSalvar.disable();
         } else {
             unidade = comboBox.getSelectedIndex();
