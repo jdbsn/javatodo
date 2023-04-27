@@ -45,15 +45,6 @@ public class Repetir extends JDialog {
 
     }
 
-    private void limpar() {
-        tempo = 1;
-        unidade = 0;
-        qtdVezes = 1;
-        repetir = false;
-        texto = "Repetir";
-        dispose();
-    }
-
     public void exibir() {
         tempoField.setText(Integer.toString(this.tempo));
         qtdField.setText(Integer.toString(this.qtdVezes));
@@ -64,9 +55,7 @@ public class Repetir extends JDialog {
     }
 
     private void salvar() {
-        if(!tempoField.getText().matches("[0-9]+") || !qtdField.getText().matches("[0-9]+")) {
-            btnSalvar.disable();
-        } else if (Integer.parseInt(tempoField.getText()) == 0 || Integer.parseInt(qtdField.getText()) == 0) {
+        if(!tempoField.getText().matches("^0*?[1-9]\\d*$") || !qtdField.getText().matches("^0*?[1-9]\\d*$")) {
             btnSalvar.disable();
         } else {
             unidade = comboBox.getSelectedIndex();
@@ -91,6 +80,19 @@ public class Repetir extends JDialog {
 
     private void cancelar() {
         dispose();
+    }
+
+    private void limpar() {
+        setPadrao();
+        dispose();
+    }
+
+    public void setPadrao() {
+        this.tempo = 1;
+        this.unidade = 0;
+        this.qtdVezes = 1;
+        this.repetir = false;
+        this.texto = "Repetir";
     }
 
     public int getTempo() { return tempo; }

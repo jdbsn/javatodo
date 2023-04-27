@@ -2,6 +2,7 @@ package br.upe.model;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TarefaTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0 : return tarefa.isFinalizada();
             case 1 : return tarefa.getDescricao();
-            case 2 : return tarefa.getDataCriacao();
+            case 2 : return tarefa.getDataCriacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
         return null;
     }

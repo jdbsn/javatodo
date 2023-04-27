@@ -31,7 +31,7 @@ public class TelaPrincipal {
             adicionarTarefa(txtDescricaoTarefa.getText(), tempo, unidade, qtdVezes);
             txtDescricaoTarefa.setText("");
             btnRepetir.setText("Repetir");
-            qtdVezes = 0;
+            repetir.setPadrao();
         });
         chkExibirFinalizadas.addActionListener(e -> {
             boolean selecionado = ((JCheckBox) e.getSource()).isSelected();
@@ -45,17 +45,18 @@ public class TelaPrincipal {
                 unidade = repetir.getUnidade();
                 qtdVezes = repetir.getQtdVezes();
             }
-
             if(repetir.getTexto() != null) btnRepetir.setText(repetir.getTexto());
         });
     }
 
     private void adicionarTarefa(String texto, int tempo, int unidade, int qtdVezes) {
-        Tarefa tarefa = new Tarefa(texto, tarefas.size(), LocalDate.now());
+        LocalDate data = LocalDate.now();
+        Tarefa tarefa = new Tarefa(texto, tarefas.size(), data);
         controlador.adicionarTarefaAtiva(tarefa);
-
+        // Se for para repetir, cria a atividade o número de vezes escolhido.
+        // Esse boolean até poderia ser substituido por qtdVezes > 0, porém iria contra
+        // o valor padrão 1, visto que não faz sentido repetir um evento 0 vezes.
         if(repetir.isRepetir()) {
-            LocalDate data = LocalDate.now();
             for (int i = 0; i < qtdVezes; i++) {
                 data = calcular(tempo, unidade, data);
                 controlador.adicionarTarefaAtiva(new Tarefa(texto, tarefas.size(), data));
@@ -66,6 +67,7 @@ public class TelaPrincipal {
         tblTarefas.repaint();
     }
 
+    // Soma a data um valor de acordo com a unidade. Onde deve ser colocado?
     private LocalDate calcular(int tempo, int unidade, LocalDate data) {
         if (unidade == 0) {
             return data.plusDays(tempo);

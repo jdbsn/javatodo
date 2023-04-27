@@ -11,6 +11,7 @@ public class Tarefa {
     private Boolean finalizada;
     private int ordem;
 
+    // A data de criação foi adicionada como parâmetro
     public Tarefa(String texto, int ordem, LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
         this.descricao = texto;
